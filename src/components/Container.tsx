@@ -7,7 +7,7 @@ type ContainerProps = {
 
 const Container = ({ children, ...rest }: ContainerProps) => {
   return (
-    <Box maxW='4xl' mx='auto' px={{ base: 10, lg: 8 }} {...rest}>
+    <Box maxW='6xl' mx='auto' px={{ base: 10, lg: 8 }} {...rest}>
       {children}
     </Box>
   );

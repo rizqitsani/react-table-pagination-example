@@ -5,14 +5,14 @@ import ColorModeSwitcher from '@/components/ColorModeSwitcher';
 import Container from '@/components/Container';
 import MobileNav from '@/components/MobileNav';
 import NavLink from '@/components/NavLink';
-import Logo from '@/components/Logo';
 
 import { NavLinks } from '@/types';
+import { HiHome, HiServer, HiUser } from 'react-icons/hi';
 
 const links: NavLinks = [
-  // { label: 'Home', href: '/', icon: HiHome },
-  // { label: 'Projects', href: '/projects', icon: HiOutlineInformationCircle },
-  // { label: 'About', href: '/about', icon: HiBriefcase },
+  { label: 'Home', href: '/', icon: HiHome },
+  { label: 'Client Side', href: '/client-side', icon: HiUser },
+  { label: 'Server Side', href: '/server-side', icon: HiServer },
 ];
 
 const NavBar = () => {
@@ -37,7 +37,6 @@ const NavBar = () => {
         minH={{ base: '3.5rem', md: '4rem' }}
       >
         <HStack spacing={8}>
-          <Logo />
           <HStack display={{ base: 'none', md: 'flex' }} spacing={4}>
             {links.map((link, idx) => (
               <NavLink.Desktop

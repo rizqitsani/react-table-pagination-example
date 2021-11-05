@@ -5,3 +5,9 @@ export type NavLinks = {
   href: string;
   icon: IconType;
 }[];
+
+export type DataType = {
+  id: number;
+  title: string;
+  completed: boolean;
+};
