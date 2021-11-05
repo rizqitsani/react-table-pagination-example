@@ -4,11 +4,14 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { CellProps, usePagination, useTable } from 'react-table';
 import {
+  Alert,
+  AlertIcon,
   Badge,
   ButtonGroup,
   Heading,
   HStack,
   IconButton,
+  Link,
   Select,
   Table,
   Tbody,
@@ -21,8 +24,14 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
+import {
+  HiChevronLeft,
+  HiChevronRight,
+  HiOutlineExternalLink,
+} from 'react-icons/hi';
 
+import useRQToast from '@/hooks/useRQToast';
+import useRenderCount from '@/hooks/useRenderCount';
 import Container from '@/components/Container';
 import { DataType } from '@/types';
 
@@ -33,16 +42,20 @@ const ServerSidePage = () => {
   const [queryPageIndex, setQueryPageIndex] = React.useState(0);
   const [queryPageSize, setQueryPageSize] = React.useState(10);
 
-  const { data: queryData } = useQuery<DataType[], Error>(
-    ['server-side', { pageSize: queryPageSize, index: queryPageIndex }],
-    () =>
-      axios
-        .get(
-          `https://jsonplaceholder.typicode.com/todos?_limit=${pageSize}&_page=${
-            pageIndex + 1
-          }`,
-        )
-        .then((res) => res.data),
+  const renderCount = useRenderCount();
+
+  const { data: queryData } = useRQToast(
+    useQuery<DataType[], Error>(
+      ['server-side', { pageSize: queryPageSize, index: queryPageIndex }],
+      () =>
+        axios
+          .get(
+            `https://jsonplaceholder.typicode.com/todos?_limit=${pageSize}&_page=${
+              pageIndex + 1
+            }`,
+          )
+          .then((res) => res.data),
+    ),
   );
 
   const data = queryData ?? [];
@@ -115,9 +128,28 @@ const ServerSidePage = () => {
           py={8}
           spacing={6}
         >
-          <Heading as='h1' size='xl' color={mode('gray.900', 'orange.300')}>
-            Server Side Pagination
-          </Heading>
+          <Link
+            display='flex'
+            alignItems='flex-end'
+            href='https://github.com/rizqitsani/learn-react-table-pagination/blob/main/src/pages/server-side.tsx'
+            isExternal
+            _focus={{ outline: 'none' }}
+          >
+            <Heading
+              as='h1'
+              mr={2}
+              size='xl'
+              color={mode('gray.900', 'orange.300')}
+            >
+              Server Side Pagination
+            </Heading>
+            <HiOutlineExternalLink size={24} />
+          </Link>
+
+          <Alert colorScheme='orange'>
+            <AlertIcon />
+            Render Counter: {renderCount}
+          </Alert>
 
           <VStack w='full' align='start' spacing={4}>
             <HStack minW='xs'>

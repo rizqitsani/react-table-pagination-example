@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { DefaultSeo } from 'next-seo';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { Toaster } from 'react-hot-toast';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import theme from '@/theme';
@@ -26,6 +27,18 @@ function MyApp({ Component, pageProps }: AppProps) {
             url: `https://learn-react-table-pagination.vercel.app${router.asPath}`,
           }}
         />
+        <div>
+          <Toaster
+            reverseOrder={false}
+            toastOptions={{
+              style: {
+                borderRadius: '8px',
+                background: '#333',
+                color: '#fff',
+              },
+            }}
+          />
+        </div>
         <NavBar />
         <Component {...pageProps} />
         <Footer />
