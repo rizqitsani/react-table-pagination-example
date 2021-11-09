@@ -38,23 +38,33 @@ import { DataType } from '@/types';
 // Should be the length of data, usually returned by API
 const DATA_LENGTH = 200;
 
+type Key = { pageSize: number; pageIndex: number };
+
+const queryFn = async ({ pageIndex, pageSize }: Key) => {
+  const { data } = await axios.get(
+    `https://jsonplaceholder.typicode.com/todos?_limit=${pageSize}&_page=${
+      pageIndex + 1
+    }`,
+  );
+  return data;
+};
+
 const ServerSidePage = () => {
   const [queryPageIndex, setQueryPageIndex] = React.useState(0);
   const [queryPageSize, setQueryPageSize] = React.useState(10);
 
   const renderCount = useRenderCount();
 
+  const queryKey: Key = {
+    pageSize: queryPageSize,
+    pageIndex: queryPageIndex,
+  };
+
   const { data: queryData } = useRQToast(
     useQuery<DataType[], Error>(
-      ['server-side', { pageSize: queryPageSize, index: queryPageIndex }],
-      () =>
-        axios
-          .get(
-            `https://jsonplaceholder.typicode.com/todos?_limit=${pageSize}&_page=${
-              pageIndex + 1
-            }`,
-          )
-          .then((res) => res.data),
+      ['server-side', queryKey],
+      () => queryFn(queryKey),
+      { keepPreviousData: true },
     ),
   );
 

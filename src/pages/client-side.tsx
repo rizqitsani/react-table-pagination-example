@@ -35,15 +35,18 @@ import useRenderCount from '@/hooks/useRenderCount';
 import Container from '@/components/Container';
 import { DataType } from '@/types';
 
+const queryFn = async () => {
+  const { data } = await axios.get(
+    'https://jsonplaceholder.typicode.com/todos',
+  );
+  return data;
+};
+
 const ClientSidePage = () => {
   const renderCount = useRenderCount();
 
   const { data: queryData } = useRQToast(
-    useQuery<DataType[], Error>('client-side', () =>
-      axios
-        .get('https://jsonplaceholder.typicode.com/todos')
-        .then((res) => res.data),
-    ),
+    useQuery<DataType[], Error>('client-side', queryFn),
   );
 
   const data = queryData ?? [];
