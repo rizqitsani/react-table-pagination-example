@@ -32,6 +32,9 @@ export default function useRQToast<T, E>(
   React.useEffect(() => {
     if (!runCondition) return;
 
+    // If it is not the first render
+    if (toastStatus.current === 'done' && !isLoading) return;
+
     if (isError) {
       toast.error(toastMessage.error, { id: toastStatus.current });
       toastStatus.current = 'done';
